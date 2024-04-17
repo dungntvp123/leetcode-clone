@@ -31,4 +31,9 @@ public class AuthController {
         ResponseBody body = authService.register(requestDto);
         return ResponseEntity.ok(body);
     }
+
+    @PostMapping("/v1/demo")
+    public ResponseEntity<?> demo() {
+        return ResponseEntity.ok("ok");
+    }
 }
