@@ -46,6 +46,7 @@ public class JwtAuthenticationFilter implements Filter {
             UserDetails user = accountRepository.findByUsername(username);
             if (!jwtUtils.validateToken(token, user)) {
                 log.info("Invalid token");
+                filterChain.doFilter(request, response);
                 return;
             }
             log.info("Token accepted");
