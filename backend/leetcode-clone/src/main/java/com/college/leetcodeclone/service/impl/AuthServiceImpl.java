@@ -4,6 +4,7 @@ import com.college.leetcodeclone.common.ResponseBody;
 import com.college.leetcodeclone.common.ResponseStatus;
 import com.college.leetcodeclone.data.constant.Authority;
 import com.college.leetcodeclone.data.dto.request.RegisterRequestDto;
+import com.college.leetcodeclone.data.dto.request.ResetPasswordRequestDto;
 import com.college.leetcodeclone.data.dto.request.UsernamePasswordAuthenticationRequestDto;
 import com.college.leetcodeclone.data.dto.response.AccountVerificationResponseDto;
 import com.college.leetcodeclone.data.dto.response.RegisterResponseDto;
@@ -13,6 +14,7 @@ import com.college.leetcodeclone.data.entity.AccountVerifyToken;
 import com.college.leetcodeclone.data.entity.User;
 import com.college.leetcodeclone.exception.AccountVerifyTokenExpiredException;
 import com.college.leetcodeclone.exception.RegisterInformationConstraintViolateException;
+import com.college.leetcodeclone.exception.ResetPasswordInformationConstraintViolateException;
 import com.college.leetcodeclone.helper.ValidationHelper;
 import com.college.leetcodeclone.repository.AccountRepository;
 import com.college.leetcodeclone.repository.AccountVerifyTokenRepository;
@@ -65,17 +67,17 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     public ResponseBody<RegisterResponseDto> register(RegisterRequestDto requestDto) {
         Set<Authority> authorities = new HashSet<>(Arrays.asList(Authority.USER));
-        List<String> validations = ValidationHelper.getViolationMessage(requestDto);
+        List<String> violations = ValidationHelper.getViolationMessage(requestDto);
         String randToken = UUID.randomUUID().toString();
         if (accountRepository.existsByUsername(requestDto.getUsername())) {
-            validations.add("Username must be unique");
+            violations.add("Username must be unique");
         }
         if (accountRepository.existsByEmail(requestDto.getEmail())) {
-            validations.add("Email must be unique");
+            violations.add("Email must be unique");
         }
-        if (!validations.isEmpty()) {
+        if (!violations.isEmpty()) {
             try {
-                String message = (new ObjectMapper()).writeValueAsString(validations);
+                String message = (new ObjectMapper()).writeValueAsString(violations);
                 throw new RegisterInformationConstraintViolateException(message);
             } catch (JsonProcessingException ignored) {
             }
@@ -123,6 +125,25 @@ public class AuthServiceImpl implements AuthService {
         accountVerifyTokenRepository.save(accountVerifyToken);
 
         return new ResponseBody<>(ResponseStatus.ACCOUNT_VERIFICATION_SUCCESSFUL, new AccountVerificationResponseDto(token));
+    }
+
+    @Override
+    @Transactional
+    public ResponseBody<?> resetPassword(ResetPasswordRequestDto requestDto, UserDetails userDetails) {
+        List<String> violations = ValidationHelper.getViolationMessage(requestDto);
+        if (!violations.isEmpty()) {
+            try {
+                String message = (new ObjectMapper()).writeValueAsString(violations);
+                throw new ResetPasswordInformationConstraintViolateException(message);
+            } catch (JsonProcessingException ignored) {
+            }
+        }
+
+        Account account = accountRepository.findByUsername(userDetails.getUsername()).get();
+        account.setPassword(passwordEncoder.encode(requestDto.getPassword()));
+
+        accountRepository.save(account);
+        return new ResponseBody<>(ResponseStatus.RESET_PASSWORD_SUCCESSFUL);
     }
 
     @Override
