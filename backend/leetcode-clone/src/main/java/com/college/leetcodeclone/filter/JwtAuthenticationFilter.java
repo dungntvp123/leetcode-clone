@@ -1,9 +1,8 @@
 package com.college.leetcodeclone.filter;
 
 import com.college.leetcodeclone.repository.AccountRepository;
-import com.college.leetcodeclone.utils.JwtUtils;
+import com.college.leetcodeclone.helper.JwtHelper;
 import jakarta.servlet.*;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +20,7 @@ import java.io.IOException;
 @Slf4j
 public class JwtAuthenticationFilter implements Filter {
     @Autowired
-    private JwtUtils jwtUtils;
+    private JwtHelper jwtHelper;
 
     @Autowired
     private AccountRepository accountRepository;
@@ -40,11 +39,11 @@ public class JwtAuthenticationFilter implements Filter {
 
         String token = jwt.split("Bearer")[1].trim();
 
-        String username = jwtUtils.extractUsername(token);
+        String username = jwtHelper.extractUsername(token);
 
         try {
             UserDetails user = accountRepository.findByUsername(username);
-            if (!jwtUtils.validateToken(token, user)) {
+            if (!jwtHelper.validateToken(token, user)) {
                 log.info("Invalid token");
                 filterChain.doFilter(request, response);
                 return;
