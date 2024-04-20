@@ -1,4 +1,4 @@
-package com.college.leetcodeclone.utils;
+package com.college.leetcodeclone.helper;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -9,11 +9,10 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Function;
 
 @Component
-public class JwtUtils {
+public class JwtHelper {
     private final long EXPIRE_TIME = 5*60*1000;
     private final String SECRET_KEY = "707fe26190a4f8434ff084304362e9c1fd62829d980525f2618952cdc752d8e4";
     public String extractUsername(String token) {

@@ -1,9 +1,9 @@
 package com.college.leetcodeclone.filter;
 
 import com.college.leetcodeclone.repository.AccountRepository;
-import com.college.leetcodeclone.utils.JwtUtils;
+import com.college.leetcodeclone.helper.JwtHelper;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.*;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,7 @@ import java.io.IOException;
 @Slf4j
 public class JwtAuthenticationFilter implements Filter {
     @Autowired
-    private JwtUtils jwtUtils;
+    private JwtHelper jwtHelper;
 
     @Autowired
     private AccountRepository accountRepository;
@@ -40,22 +40,23 @@ public class JwtAuthenticationFilter implements Filter {
 
         String token = jwt.split("Bearer")[1].trim();
 
-        String username = jwtUtils.extractUsername(token);
-
         try {
-            UserDetails user = accountRepository.findByUsername(username);
-            if (!jwtUtils.validateToken(token, user)) {
-                log.info("Invalid token");
-                return;
-            }
-            log.info("Token accepted");
-            Authentication authentication =
-                    new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+            String username = jwtHelper.extractUsername(token);
+                UserDetails user = accountRepository.findByUsername(username).get();
+                if (!jwtHelper.validateToken(token, user) || !user.isEnabled()) {
+                    log.info("Invalid token");
+                    filterChain.doFilter(request, response);
+                    return;
+                }
+                log.info("Token accepted");
+                Authentication authentication =
+                        new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                filterChain.doFilter(request, response);
+        } catch (Exception exception) {
+            log.info(exception.getMessage());
             filterChain.doFilter(request, response);
-        } catch (Exception ex) {
-            log.info("{}",ex.getMessage());
         }
 
 
