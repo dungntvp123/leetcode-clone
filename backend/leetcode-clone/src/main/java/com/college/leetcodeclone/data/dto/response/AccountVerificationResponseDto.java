@@ -5,8 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class RegisterResponseDto {
-    private String verifyToken;
+@AllArgsConstructor
+public class AccountVerificationResponseDto {
+    private String jwt;
 }

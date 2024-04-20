@@ -1,7 +1,6 @@
 package com.college.leetcodeclone.data.entity;
 
 import com.college.leetcodeclone.data.constant.Authority;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,9 +20,15 @@ public class Account implements UserDetails {
     @Column(unique = true)
     private String username;
     private String password;
+    @Column(unique = true)
+    private String email;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "verify_token_id", referencedColumnName = "id")
+    private AccountVerifyToken accountVerifyToken;
+    private boolean isEnable;
     @ElementCollection(targetClass = Authority.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "has_authorities", joinColumns = @JoinColumn(name = "account_id"))
     @Column(name = "authority")
@@ -60,6 +65,6 @@ public class Account implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return isEnable;
     }
 }

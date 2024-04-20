@@ -9,4 +9,6 @@ public interface AuthService extends UserDetailsService {
     public ResponseBody authenticate(UsernamePasswordAuthenticationRequestDto requestDto);
 
     public ResponseBody register(RegisterRequestDto requestDto);
+
+    public ResponseBody verifyToken(String verifyToken);
 }

@@ -32,6 +32,13 @@ public class AuthController {
         return ResponseEntity.ok(body);
     }
 
+    @PostMapping("/v1/account-verify")
+    public ResponseEntity<?> accountVerify(@RequestParam String verifyToken) {
+        log.info("(account-verify)");
+        ResponseBody body = authService.verifyToken(verifyToken);
+        return ResponseEntity.ok(body);
+    }
+
     @PostMapping("/v1/demo")
     public ResponseEntity<?> demo() {
         return ResponseEntity.ok("ok");

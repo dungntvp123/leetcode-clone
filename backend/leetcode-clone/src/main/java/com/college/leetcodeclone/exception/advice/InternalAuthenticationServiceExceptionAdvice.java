@@ -14,6 +14,6 @@ public class InternalAuthenticationServiceExceptionAdvice {
     @ExceptionHandler(InternalAuthenticationServiceException.class)
     @org.springframework.web.bind.annotation.ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ResponseBody handle() {
-        return new ResponseBody(ResponseStatus.AUTHENTICATION_FAILED);
+        return new ResponseBody(ResponseStatus.INCORRECT_AUTHENTICATION_INFORMATION);
     }
 }

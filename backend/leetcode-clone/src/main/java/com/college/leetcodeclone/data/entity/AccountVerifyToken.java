@@ -6,21 +6,23 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
+
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class User {
+public class AccountVerifyToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "first_name")
-    private String firstName;
-    private String lastName;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "image_id", referencedColumnName = "id")
-    private Image image;
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    private String description;
+    private Timestamp expiration;
+    @OneToOne(mappedBy = "accountVerifyToken", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Account account;
+
+    public boolean isExpired() {
+        return new Timestamp(System.currentTimeMillis()).after(expiration);
+    }
 }
