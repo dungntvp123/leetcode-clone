@@ -15,9 +15,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "first_name")
-    private String firstName;
-    private String lastName;
+    private String name;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     private Image image;

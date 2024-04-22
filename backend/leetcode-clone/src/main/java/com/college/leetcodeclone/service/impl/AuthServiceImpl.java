@@ -3,9 +3,7 @@ package com.college.leetcodeclone.service.impl;
 import com.college.leetcodeclone.common.ResponseBody;
 import com.college.leetcodeclone.common.ResponseStatus;
 import com.college.leetcodeclone.data.constant.Authority;
-import com.college.leetcodeclone.data.dto.request.RegisterRequestDto;
-import com.college.leetcodeclone.data.dto.request.ResetPasswordRequestDto;
-import com.college.leetcodeclone.data.dto.request.UsernamePasswordAuthenticationRequestDto;
+import com.college.leetcodeclone.data.dto.request.*;
 import com.college.leetcodeclone.data.dto.response.AccountVerificationResponseDto;
 import com.college.leetcodeclone.data.dto.response.RegisterResponseDto;
 import com.college.leetcodeclone.data.dto.response.UsernamePasswordAuthenticationResponseDto;
@@ -84,8 +82,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         User user = User.builder()
-                .firstName(requestDto.getFirstname())
-                .lastName(requestDto.getLastname())
+                .name(requestDto.getFirstname() + " " + requestDto.getLastname())
                 .build();
 
         AccountVerifyToken verifyToken = AccountVerifyToken.builder()
@@ -144,6 +141,17 @@ public class AuthServiceImpl implements AuthService {
 
         accountRepository.save(account);
         return new ResponseBody<>(ResponseStatus.RESET_PASSWORD_SUCCESSFUL);
+    }
+
+    @Override
+    public ResponseBody googleAuthenticate(GoogleAuthenticationRequestDto requestDto) {
+
+        return null;
+    }
+
+    @Override
+    public ResponseBody githubAuthenticate(GithubAuthenticationRequestDto requestDto) {
+        return null;
     }
 
     @Override

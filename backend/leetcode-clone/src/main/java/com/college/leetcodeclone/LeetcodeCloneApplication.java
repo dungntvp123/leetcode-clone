@@ -7,8 +7,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
-@PropertySource({"classpath:server.properties"})
-@EnableScheduling
+@PropertySource({"classpath:server.properties", "classpath:keys.properties"})
+//@EnableScheduling
 public class LeetcodeCloneApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(LeetcodeCloneApplication.class, args);
