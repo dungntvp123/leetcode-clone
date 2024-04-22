@@ -1,6 +1,7 @@
 package com.college.leetcodeclone.controller;
 
 import com.college.leetcodeclone.common.ResponseBody;
+import com.college.leetcodeclone.data.dto.request.OtpRequestDto;
 import com.college.leetcodeclone.data.dto.request.RegisterRequestDto;
 import com.college.leetcodeclone.data.dto.request.ResetPasswordRequestDto;
 import com.college.leetcodeclone.data.dto.request.UsernamePasswordAuthenticationRequestDto;
@@ -41,6 +42,13 @@ public class AuthController {
     public ResponseEntity<?> accountVerify(@RequestParam String verifyToken) {
         log.info("(account-verify)");
         ResponseBody body = authService.verifyToken(verifyToken);
+        return ResponseEntity.ok(body);
+    }
+
+    @PostMapping("/v1/otp")
+    public ResponseEntity<?> getOtp(@RequestBody OtpRequestDto requestDto) {
+        log.info("(otp)");
+        ResponseBody body = authService.getOtp(requestDto);
         return ResponseEntity.ok(body);
     }
 

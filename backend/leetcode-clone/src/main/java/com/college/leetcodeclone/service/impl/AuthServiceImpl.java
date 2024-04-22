@@ -5,6 +5,7 @@ import com.college.leetcodeclone.common.ResponseStatus;
 import com.college.leetcodeclone.data.constant.Authority;
 import com.college.leetcodeclone.data.dto.request.*;
 import com.college.leetcodeclone.data.dto.response.AccountVerificationResponseDto;
+import com.college.leetcodeclone.data.dto.response.OtpResponseDto;
 import com.college.leetcodeclone.data.dto.response.RegisterResponseDto;
 import com.college.leetcodeclone.data.dto.response.UsernamePasswordAuthenticationResponseDto;
 import com.college.leetcodeclone.data.entity.Account;
@@ -145,13 +146,26 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public ResponseBody googleAuthenticate(GoogleAuthenticationRequestDto requestDto) {
-
         return null;
     }
 
     @Override
     public ResponseBody githubAuthenticate(GithubAuthenticationRequestDto requestDto) {
         return null;
+    }
+
+    @Override
+    @Transactional
+    public ResponseBody<?> getOtp(OtpRequestDto requestDto) {
+        String token = UUID.randomUUID().toString();
+        Account account = accountRepository.findByEmail(requestDto.getEmail()).get();
+
+        AccountVerifyToken verifyToken = account.getAccountVerifyToken();
+
+        verifyToken.setDescription(token);
+        verifyToken.setExpiration(new Timestamp(System.currentTimeMillis() + 5 * 60 * 1000));
+        accountRepository.save(account);
+        return new ResponseBody<>(ResponseStatus.DATA_LOADED_SUCCESSFUL, new OtpResponseDto(token));
     }
 
     @Override

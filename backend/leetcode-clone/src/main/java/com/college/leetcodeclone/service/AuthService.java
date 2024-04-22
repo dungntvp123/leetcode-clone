@@ -5,9 +5,6 @@ import com.college.leetcodeclone.data.dto.request.*;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-
 public interface AuthService extends UserDetailsService {
     ResponseBody<?> authenticate(UsernamePasswordAuthenticationRequestDto requestDto);
 
@@ -20,4 +17,6 @@ public interface AuthService extends UserDetailsService {
     ResponseBody<?> googleAuthenticate(GoogleAuthenticationRequestDto requestDto);
 
     ResponseBody<?> githubAuthenticate(GithubAuthenticationRequestDto requestDto);
+
+    ResponseBody<?> getOtp(OtpRequestDto requestDto);
 }

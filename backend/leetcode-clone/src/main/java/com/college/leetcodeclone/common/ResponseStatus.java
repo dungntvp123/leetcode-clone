@@ -9,9 +9,10 @@ public enum ResponseStatus {
 
     REGISTRATION_INFORMATION_CONSTRAINT_VIOLATE(400001, "Registration information violate constraint", "error"),
     RESET_PASSWORD_INFORMATION_CONSTRAINT_VIOLATE(400002, "Reset password information violate constraint", "error"),
-    INCORRECT_AUTHENTICATION_INFORMATION(401100, "Username or password incorrect", "error"),
-    DISABLED_ACCOUNT(401101, "Account has been disabled", "error"),
+    INCORRECT_AUTHENTICATION_INFORMATION(401001, "Username or password incorrect", "error"),
+    DISABLED_ACCOUNT(401001, "Account has been disabled", "error"),
 
+    DATA_NOT_FOUND(404001, "Data not found", "error")
     ;
 
     public long code;
