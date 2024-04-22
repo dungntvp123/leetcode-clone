@@ -34,4 +34,10 @@ public class UserController {
         ResponseBody body = userService.loadUser(username);
         return ResponseEntity.ok(body);
     }
+
+    @GetMapping("/v1/profile")
+    public ResponseEntity<?> userProfile(@RequestParam String username) {
+        ResponseBody body = userService.loadUser(username);
+        return ResponseEntity.ok(body);
+    }
 }
