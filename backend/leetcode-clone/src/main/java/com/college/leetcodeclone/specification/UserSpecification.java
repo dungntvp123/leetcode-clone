@@ -18,4 +18,11 @@ public interface UserSpecification {
             return criteriaBuilder.like(userJoin.get(Account_.EMAIL), "%"+email+"%");
         };
     }
+
+    default Specification<User> usernameLike(String username) {
+        return (root, query, criteriaBuilder) -> {
+            Join<Account, User> userJoin = root.join(User_.ACCOUNT);
+            return criteriaBuilder.like(userJoin.get(Account_.USERNAME), "%"+username+"%");
+        };
+    }
 }

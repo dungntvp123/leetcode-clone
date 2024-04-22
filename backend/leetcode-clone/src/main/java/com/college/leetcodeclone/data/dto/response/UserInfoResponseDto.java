@@ -8,12 +8,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class UserSearchingResponseDto {
+public class UserInfoResponseDto {
+    private String username;
     private String name;
     private String email;
     private String image;
 
-    public UserSearchingResponseDto(User user) {
+    public UserInfoResponseDto(User user) {
+        this.username = user.getAccount().getUsername();
         this.name = user.getName();
         this.image = "#";
         this.email = user.getAccount().getEmail();

@@ -5,5 +5,7 @@ import com.college.leetcodeclone.data.dto.request.UserSearchingCriteriaRequestDt
 import com.college.leetcodeclone.specification.UserSpecification;
 
 public interface UserService extends UserSpecification {
-    public ResponseBody loadUser(UserSearchingCriteriaRequestDto criteria);
+    ResponseBody<?> loadUser(UserSearchingCriteriaRequestDto criteria);
+
+    ResponseBody<?> loadUser(String username);
 }

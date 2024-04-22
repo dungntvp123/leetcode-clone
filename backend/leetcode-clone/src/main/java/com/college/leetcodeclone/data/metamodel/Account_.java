@@ -9,8 +9,10 @@ import jakarta.persistence.metamodel.StaticMetamodel;
 public class Account_ {
     public static volatile SingularAttribute<Account, String> email;
     public static volatile SingularAttribute<Account, User> user;
+    public static volatile SingularAttribute<Account, String> username;
     public static volatile SingularAttribute<Account, Boolean> isEnable;
     public static final String EMAIL = "email";
     public static final String USER = "user";
+    public static final String USERNAME = "username";
     public static final String IS_ENABLE = "isEnable";
 }

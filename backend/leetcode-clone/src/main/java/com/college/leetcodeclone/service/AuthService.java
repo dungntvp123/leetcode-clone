@@ -9,15 +9,15 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 
 public interface AuthService extends UserDetailsService {
-    public ResponseBody authenticate(UsernamePasswordAuthenticationRequestDto requestDto);
+    ResponseBody<?> authenticate(UsernamePasswordAuthenticationRequestDto requestDto);
 
-    public ResponseBody register(RegisterRequestDto requestDto);
+    ResponseBody<?> register(RegisterRequestDto requestDto);
 
-    public ResponseBody verifyToken(String verifyToken);
+    ResponseBody<?> verifyToken(String verifyToken);
 
-    public ResponseBody resetPassword(ResetPasswordRequestDto requestDto, UserDetails userDetails);
+    ResponseBody<?> resetPassword(ResetPasswordRequestDto requestDto, UserDetails userDetails);
 
-    public ResponseBody googleAuthenticate(GoogleAuthenticationRequestDto requestDto);
+    ResponseBody<?> googleAuthenticate(GoogleAuthenticationRequestDto requestDto);
 
-    public ResponseBody githubAuthenticate(GithubAuthenticationRequestDto requestDto);
+    ResponseBody<?> githubAuthenticate(GithubAuthenticationRequestDto requestDto);
 }
