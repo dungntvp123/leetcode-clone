@@ -16,6 +16,6 @@ public class NoSuchElementExceptionAdvice {
     @ExceptionHandler(NoSuchElementException.class)
     @org.springframework.web.bind.annotation.ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseBody handle() {
-        return new ResponseBody(ResponseStatus.DISABLED_ACCOUNT);
+        return new ResponseBody(ResponseStatus.DATA_NOT_FOUND);
     }
 }

@@ -1,18 +1,22 @@
 package com.college.leetcodeclone.service;
 
 import com.college.leetcodeclone.common.ResponseBody;
-import com.college.leetcodeclone.data.dto.request.RegisterRequestDto;
-import com.college.leetcodeclone.data.dto.request.ResetPasswordRequestDto;
-import com.college.leetcodeclone.data.dto.request.UsernamePasswordAuthenticationRequestDto;
+import com.college.leetcodeclone.data.dto.request.*;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface AuthService extends UserDetailsService {
-    public ResponseBody authenticate(UsernamePasswordAuthenticationRequestDto requestDto);
+    ResponseBody<?> authenticate(UsernamePasswordAuthenticationRequestDto requestDto);
 
-    public ResponseBody register(RegisterRequestDto requestDto);
+    ResponseBody<?> register(RegisterRequestDto requestDto);
 
-    public ResponseBody verifyToken(String verifyToken);
+    ResponseBody<?> verifyToken(String verifyToken);
 
-    public ResponseBody resetPassword(ResetPasswordRequestDto requestDto, UserDetails userDetails);
+    ResponseBody<?> resetPassword(ResetPasswordRequestDto requestDto, UserDetails userDetails);
+
+    ResponseBody<?> googleAuthenticate(GoogleAuthenticationRequestDto requestDto);
+
+    ResponseBody<?> githubAuthenticate(GithubAuthenticationRequestDto requestDto);
+
+    ResponseBody<?> getOtp(OtpRequestDto requestDto);
 }
